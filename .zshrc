@@ -182,7 +182,7 @@ bindkey "^[[1;5C" forward-word
 
 
 # VARS
-export EDITOR=vi
+export EDITOR=vim
 
 if [ -d "$HOME/.skripte" ] ; then
     PATH="$HOME/.skripte:$PATH"
