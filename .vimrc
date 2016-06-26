@@ -9,12 +9,13 @@ call vundle#begin()
 
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
-" File browser
-Plugin 'kien/ctrlp.vim'
+" File finder
+Plugin 'ctrlpvim/ctrlp.vim'
 " Solarized color
 Plugin 'altercation/vim-colors-solarized.git'
 " Nicer statusbar
 Plugin 'bling/vim-airline' 
+Plugin 'vim-airline/vim-airline-themes'
 " + Nicer statusbar for tmux
 Plugin 'edkolev/tmuxline.vim'
 " Git implementation
@@ -24,28 +25,21 @@ Plugin 'airblade/vim-gitgutter.git'
 " File browser
 Plugin 'scrooloose/nerdtree'
 " Fix for nerdtree tab open
-Plugin 'Nopik/vim-nerdtree-direnter'
+"Plugin 'Nopik/vim-nerdtree-direnter'
 " Use tab
 Plugin 'Lokaltog/vim-easymotion'
 " Syntax checker
 Plugin 'scrooloose/syntastic'
 " Autocomplete
 Plugin 'Valloric/YouCompleteMe'
-" JS libraries autocomplete
-Plugin 'othree/javascript-libraries-syntax.vim'
-" NodeJS stuff
-Plugin 'ahayman/vim-nodejs-complete'
-Plugin 'moll/vim-node'
-"CoffeeScript support
-Plugin 'kchmck/vim-coffee-script'
-" JSLint (syntax checker)
-Plugin 'wookiehangover/jshint.vim'
+" JS autocomplete 
+Plugin 'ternjs/tern_for_vim'
+" JS Syntax
+Plugin 'pangloss/vim-javascript'
 " Buffer (opened files) explorer
-Plugin 'techlivezheng/vim-plugin-minibufexpl'
+"Plugin 'techlivezheng/vim-plugin-minibufexpl'
 " Markdown syntax
 Plugin 'tpope/vim-markdown'
-" Class browser
-Plugin 'majutsushi/tagbar'
 " Auto adjust vim spaces/tab indent based on current file
 Plugin 'ciaranm/detectindent'
 " Auto line up text
@@ -56,12 +50,15 @@ Plugin 'hail2u/vim-css3-syntax'
 Plugin 'mkitt/tabline.vim'
 " Snippets
 Plugin 'SirVer/ultisnips'
-" Cool colorscheme
-Plugin 'widatama/vim-phoenix'
-" Minimap
-Plugin 'severin-lemaignan/vim-minimap'
-" Android development
-Plugin 'hsanson/vim-android'
+" Integrate shell commands to vim
+Plugin 'tpope/vim-eunuch'
+" Auto stuff
+Plugin 'mattn/emmet-vim'
+" Easy surround words with anything
+Plugin 'tpope/vim-surround'
+" Indent lines
+Plugin 'nathanaelkane/vim-indent-guides'
+set backspace=indent,eol,start  " backspace
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -93,8 +90,8 @@ set incsearch	" Search options
 set showmatch
 set hlsearch
 set wrap
-set textwidth=85	" when to break line
 set colorcolumn=100	" Vertical line seen right of text
+set wildmenu    "Better menu
 syntax enable
 filetype plugin indent on 
 
@@ -119,22 +116,19 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 0 
 let g:syntastic_check_on_wq = 0 
 
-" JS libs
-let g:used_javascript_libs = 'jquery jasmine backbone'
-
 " Status bar 
 let g:airline#extensions#tabline#enabled = 1
-"let g:airline#extensions#tmuxline#enabled = 1 
+let g:airline#extensions#tmuxline#enabled = 1 
 let g:miniBufExplMaxSize = 20
 set laststatus=2
 let g:airline_theme='murmur'
-let g:airline_powerline_fonts = 0
+let g:airline_powerline_fonts = 1
 
 " Indentation
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
-set noexpandtab
+set expandtab
 set number
 set numberwidth=1
 set ai "Auto indent
@@ -145,7 +139,8 @@ nnoremap <F2> :set invpaste paste?<CR>
 set pastetoggle=<F2>
 set showmode
 if has("gui_running") 
-	map <C-S-v> c<ESC>"+p
+	map <C-S-v> c<ESC>"+gP
+	map <C-S-c> c<ESC>"+y
 	imap <C-v> <C-r><C-o>+
 endif
 set pastetoggle=	"Turn on paste
@@ -157,8 +152,8 @@ map <C-PAGEUP> :MBEbn<CR>
 map <C-PAGEDOWN> :MBEbp<CR>
 nmap <Leader>br :TagbarToggle<CR>
 map <2-LeftMouse>za	" Toggle fold
-nnoremap j gj	" Move straight up/down
-nnoremap k gk
+" nnoremap j gj	" Move straight up/down
+" nnoremap k gk
 nnoremap <Leader><tab> %	" Jump to other parentheses
 vnoremap <Leader><tab> %
 nnoremap <leader><esc> :noh<cr>
@@ -186,6 +181,9 @@ autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 autocmd FileType c setlocal omnifunc=ccomplete#CompleteTags
 autocmd BufNewFile,BufRead \*.{md,mdwn,mkd,mkdn,mark\*} set filetype=markdown
+autocmd FileType python set sw=4
+autocmd FileType python set ts=4
+autocmd FileType python set sts=4
 
 set wildmenu
 set wildmode=longest:full,full
@@ -221,4 +219,15 @@ set wildignore+=*.orig " Merge resolution files
 " YCM
 let g:ycm_extra_conf_globlist = ['./*'] " Look for conf file in the same folder
 let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
+let g:ycm_collect_identifiers_from_tags_files = 1 " Let YCM read tags from Ctags file
+let g:ycm_use_ultisnips_completer = 1 " Default 1, just ensure
+let g:ycm_seed_identifiers_with_syntax = 1 " Completion for programming language's keyword
+let g:ycm_complete_in_comments = 1 " Completion in comments
+let g:ycm_complete_in_strings = 1 " Completion in string
+
+" Ultisnips
+let g:UltiSnipsExpandTrigger       = "<c-j>"
+let g:UltiSnipsJumpForwardTrigger  = "<c-j>"
+let g:UltiSnipsJumpBackwardTrigger = "<c-p>"
+let g:UltiSnipsListSnippets        = "<c-k>" "List possible snippets based on current file
 

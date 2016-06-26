@@ -17,7 +17,7 @@ autoload -Uz compinit
 compinit
 
 #Terminal stuff
-export TERM=xterm-256color
+#export TERM=xterm-256color
 
 # Source files
 
@@ -72,20 +72,20 @@ zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 setopt completealiases #Alias & switches completion
 
 setopt auto_cd
-cdpath=($HOME/projekti $HOME/Downloads $HOME/Desktop)
+#cdpath=($HOME/projekti $HOME/Downloads $HOME/Desktop)
 
 # DIR stack
 
-DIRSTACKFILE="$HOME/.zsh/dirs"
-if [[ -f $DIRSTACKFILE ]] && [[ $#dirstack -eq 0 ]]; then
-  dirstack=( ${(f)"$(< $DIRSTACKFILE)"} )
-  [[ -d $dirstack[1] ]] && cd $dirstack[1]
-fi
-chpwd() {
-  print -l $PWD ${(u)dirstack} >$DIRSTACKFILE
-}
+#DIRSTACKFILE="$HOME/.zsh/dirs"
+#if [[ -f $DIRSTACKFILE ]] && [[ $#dirstack -eq 0 ]]; then
+#  dirstack=( ${(f)"$(< $DIRSTACKFILE)"} )
+#  [[ -d $dirstack[1] ]] && cd $dirstack[1]
+#fi
+#chpwd() {
+#  print -l $PWD ${(u)dirstack} >$DIRSTACKFILE
+#}
 
-DIRSTACKSIZE=20
+#DIRSTACKSIZE=20
 
 #setopt pushdsilent pushdtohome
 
@@ -102,7 +102,7 @@ setopt chase_links
 setopt auto_cd
 
 # Traditional cd
-setopt posix_cd
+#setopt posix_cd
 
 # Setup prompt
 PROMPT='[%B%F{45}%n%f%F{82}@%f%F{33}%m%f]:%F{196}%~%f %F{46}$%b '
@@ -164,7 +164,8 @@ zle -N history-beginning-search-forward-end history-search-end
 # create a zkbd compatible hash;
 # # to add other keys to this hash, see: man 5 terminfo
 autoload zkbd
-source ~/.zkbd/$TERM-:0 # may be different - check where zkbd saved the configuration:
+# [[ ! -f ${ZDOTDIR:-$HOME}/.zkbd/$TERM ]] && zkbd
+    source ${ZDOTDIR:-$HOME}/.zkbd/$TERM
 
 [[ -n ${key[Backspace]} ]] && bindkey "${key[Backspace]}" backward-delete-char
 [[ -n ${key[Insert]} ]] && bindkey "${key[Insert]}" overwrite-mode
@@ -182,8 +183,13 @@ bindkey "^[[1;5C" forward-word
 
 
 # VARS
-export EDITOR=vim
+export EDITOR=vi
+export TERM=screen-256color
 
 if [ -d "$HOME/.skripte" ] ; then
     PATH="$HOME/.skripte:$PATH"
 fi
+if [ -d "$HOME/.gem" ] ; then
+    PATH="$HOME/.gem/ruby/2.2.0/bin:$PATH"
+fi
+cd $HOME
