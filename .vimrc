@@ -50,6 +50,8 @@ Plugin 'hail2u/vim-css3-syntax'
 Plugin 'mkitt/tabline.vim'
 " Snippets
 Plugin 'SirVer/ultisnips'
+" Lots of language support
+Plugin 'sheerun/vim-polyglot'
 " Integrate shell commands to vim
 Plugin 'tpope/vim-eunuch'
 " Auto stuff

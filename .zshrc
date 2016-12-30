@@ -192,4 +192,10 @@ fi
 if [ -d "$HOME/.gem" ] ; then
     PATH="$HOME/.gem/ruby/2.2.0/bin:$PATH"
 fi
+
+# Node version manager
+if [ -f "/usr/share/nvm/init-nvm.sh" ] ; then
+    source /usr/share/nvm/init-nvm.sh
+fi
+
 cd $HOME

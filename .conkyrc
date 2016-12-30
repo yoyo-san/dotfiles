@@ -26,7 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ]]
 
 conky.config = {
-    alignment = 'top_middle',
+    alignment = 'top_left',
     format_human_readable = true,
     background = true,
     border_width = 0,
@@ -44,15 +44,14 @@ conky.config = {
     gap_x = 0,
     gap_y = 30,
     minimum_height = 0,
-	minimum_width = 1910,
-    maximum_width = 1910,
+	minimum_width = 1915,
     net_avg_samples = 2,
     no_buffers = true,
     out_to_console = false,
     out_to_stderr = false,
     extra_newline = false,
     own_window = true,
-    own_window_colour = '00021d',
+    own_window_colour = '132136',
     own_window_transparent = false,
     own_window_class = 'Conky',
     own_window_type = 'panel',
@@ -74,5 +73,5 @@ conky.config = {
 }
 
 conky.text = [[
-$color9 Music: ${execi 10 ~/.skripte/cmus-conky.sh}    |    $color9 $alignr CPU: $color0 ${cpu cpu0}% | ${cpu cpu1}% | ${cpu cpu2}% | ${cpu cpu3}% $color9    |    RAM: $color2 $mem / $memmax - $memperc% $color9    |    Swap: $color3 $swap / $swapmax - $swapperc% $color9    |    DL: $color4 ${if_existing /sys/class/net/wlp3s0/operstate up} ${downspeedf wlp3s0} KiB/s $color9   |   UL: $color5 ${upspeedf wlp3s0} KiB/s ${endif} $color9    |    ${if_empty $battery} $else Battery: $color6 ${execi 10 ~/.skripte/battery-conky.sh} $endif
+$color9 Music:  |    $color9 $alignr CPU: $color0 ${cpu cpu0}% | ${cpu cpu1}% | ${cpu cpu2}% | ${cpu cpu3}% | $color6 ${execi 5 sensors | grep 'Physical id' | cut -d" " -f5 } $color9    |    RAM: $color2 $mem / $memmax - $memperc% $color9    |    Swap: $color3 $swap / $swapmax - $swapperc% $color9    |    DL: $color4 ${if_existing /sys/class/net/wlp3s0/operstate up} ${downspeedf wlp3s0} KiB/s $color9   |   UL: $color5 ${upspeedf wlp3s0} KiB/s ${endif} $color9    |    ${if_empty $battery} $else Battery: $color6 ${execi 10 ~/.skripte/battery-conky.sh} $endif
 ]]
